@@ -49,6 +49,9 @@ static bool s_speaker_muted = false;
 #define PREF_KEY_SPEAKER_VOLUME "speakerVolume"
 static uint8_t s_speaker_volume = 100;
 
+#define PREF_KEY_HOURLY_BEEP "hourlyBeep"
+static bool s_hourly_beep_enabled = false;
+
 #define PREF_KEY_VIBE "vibe"
 static bool s_vibe_on_notification = true;
 
@@ -326,6 +329,7 @@ void alerts_preferences_init(void) {
   RESTORE_PREF(PREF_KEY_DND_MUTE_SPEAKER, s_dnd_mute_speaker);
   RESTORE_PREF(PREF_KEY_SPEAKER_MUTED, s_speaker_muted);
   RESTORE_PREF(PREF_KEY_SPEAKER_VOLUME, s_speaker_volume);
+  RESTORE_PREF(PREF_KEY_HOURLY_BEEP, s_hourly_beep_enabled);
   RESTORE_PREF(PREF_KEY_LEGACY_DND_SCHEDULE, s_legacy_dnd_schedule);
   RESTORE_PREF(PREF_KEY_LEGACY_DND_SCHEDULE_ENABLED, s_legacy_dnd_schedule_enabled);
   RESTORE_PREF(s_dnd_schedule_keys[WeekdaySchedule].schedule_pref_key,
@@ -464,6 +468,15 @@ void alerts_preferences_set_speaker_volume(uint8_t volume) {
   }
   s_speaker_volume = volume;
   SET_PREF(PREF_KEY_SPEAKER_VOLUME, s_speaker_volume);
+}
+
+bool alerts_preferences_get_hourly_beep_enabled(void) {
+  return s_hourly_beep_enabled;
+}
+
+void alerts_preferences_set_hourly_beep_enabled(bool enable) {
+  s_hourly_beep_enabled = enable;
+  SET_PREF(PREF_KEY_HOURLY_BEEP, s_hourly_beep_enabled);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,4 +7,5 @@ pbl_library_sources(
   pcm_stream.c
   speaker_service.c
   track_player.c
+  pcm_hour_beep.c
 )

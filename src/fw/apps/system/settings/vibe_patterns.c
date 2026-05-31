@@ -11,6 +11,7 @@
 #include "pbl/services/notifications/alerts_preferences.h"
 #include "pbl/services/notifications/alerts_preferences_private.h"
 #include "pbl/services/speaker/speaker_service.h"
+#include "pbl/services/speaker/pcm_hour_beep.h"
 #include "pbl/services/vibes/vibe_client.h"
 #include "pbl/services/vibes/vibe_intensity.h"
 #include "pbl/services/vibes/vibe_score.h"
@@ -35,6 +36,9 @@ typedef enum VibeSettingsRow {
   VibeSettingsRow_Hourly,
   VibeSettingsRow_OnDisconnect,
   VibeSettingsRow_System,
+#ifdef CONFIG_SPEAKER
+  VibeSettingsRow_HourlyBeep,
+#endif
   VibeSettingsRow_Count,
 } VibeSettingsRow;
 
@@ -111,6 +115,15 @@ static void prv_draw_row_cb(SettingsCallbacks *context, GContext *ctx,
       subtitle = vibe_intensity_get_string_for_intensity(current_system_default_vibe_intensity);
       break;
     }
+#ifdef CONFIG_SPEAKER
+  case VibeSettingsRow_HourlyBeep: {
+      title = i18n_noop("Hourly Beep");
+      subtitle = alerts_preferences_get_hourly_beep_enabled() ? i18n_noop("On") : i18n_noop("Off");
+      menu_cell_basic_draw(ctx, cell_layer, i18n_get(title, data),
+                           i18n_get(subtitle, data), NULL);
+      return;
+    }
+#endif
     default: {
       WTF;
     }
@@ -164,6 +177,12 @@ static void prv_selection_changed_cb(SettingsCallbacks *context, uint16_t new_ro
       // Just return because the remainder of this function only applies to vibe scores
       return;
     }
+#ifdef CONFIG_SPEAKER
+    case VibeSettingsRow_HourlyBeep: {
+      // Don't play beep preview when scrolling
+      return;
+    }
+#endif
     default:
       WTF;
   }
@@ -228,6 +247,17 @@ static void prv_select_click_cb(SettingsCallbacks *context, uint16_t row) {
       // Just return because the remainder of this function only applies to vibe scores
       return;
     }
+#ifdef CONFIG_SPEAKER
+    case VibeSettingsRow_HourlyBeep: {
+      const bool new_enabled = !alerts_preferences_get_hourly_beep_enabled();
+      alerts_preferences_set_hourly_beep_enabled(new_enabled);
+      settings_menu_mark_dirty(SettingsMenuItemVibrations);
+      if (new_enabled && !do_not_disturb_is_active() && !speaker_service_is_muted()) {
+        speaker_service_play_hour_beep();
+      }
+      return;
+    }
+#endif
     default:
       WTF;
   }

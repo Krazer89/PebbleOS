@@ -375,6 +375,11 @@
       "_comment": ["Round-only asset (weather_app_layout.c loads it under PBL_ROUND only):",
                    "override with a 0-byte stub on this rect board. Entry merged BY NAME so",
                    "resource ids (incl. the weather app's pinned 492-514) are unchanged."]
+    },
+    {
+      "type": "raw",
+      "name": "HOUR_BEEP_PCM",
+      "file": "normal/base/audio/pcm_hour_beep.raw"
     }
   ]
 }

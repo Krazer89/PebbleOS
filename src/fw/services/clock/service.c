@@ -26,6 +26,8 @@
 #include "pbl/services/notifications/do_not_disturb.h"
 #include "pbl/services/notifications/alerts.h"
 #include "pbl/services/notifications/alerts_preferences_private.h"
+#include "pbl/services/speaker/speaker_service.h"
+#include "pbl/services/speaker/pcm_hour_beep.h"
 #include "pbl/services/vibes/vibe_client.h"
 #include "pbl/services/vibes/vibe_score.h"
 #endif
@@ -403,6 +405,13 @@ T_STATIC void prv_watch_dst(void* user) {
       vibe_score_do_vibe(score);
       vibe_score_destroy(score);
     }
+    #ifdef CONFIG_SPEAKER
+      //TODO: This should probably only play when the watchface or a system app
+      //      is in foreground (health, timeline, launcher, settings, notifications)
+      if (alerts_preferences_get_hourly_beep_enabled() && !speaker_service_is_muted()) {
+        speaker_service_play_hour_beep();
+      }
+    #endif
   }
 #endif
 

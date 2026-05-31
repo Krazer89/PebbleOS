@@ -445,6 +445,11 @@
       "name": "AS7000_FW_IMAGE",
       "file": "../third_party/nonfree/pebbleos-nonfree/as7000/as7000_fw_image.bin",
       "builtin": true
+    },
+    {
+      "type": "raw",
+      "name": "HOUR_BEEP_PCM",
+      "file": "normal/base/pcm_hour_beep.raw"
     }
   ]
 }

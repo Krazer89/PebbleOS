@@ -79,6 +79,13 @@ void alerts_preferences_set_speaker_volume(uint8_t volume);
 //! @return The system-wide speaker volume cap (0-100). Defaults to 100.
 uint8_t alerts_preferences_get_speaker_volume(void);
 
+//! Set whether hourly beep notification is enabled.
+//! @param enable true to enable hourly beep, false to disable
+void alerts_preferences_set_hourly_beep_enabled(bool enable);
+
+//! @return Whether hourly beep notification is enabled
+bool alerts_preferences_get_hourly_beep_enabled(void);
+
 //! Checks whether a given "first use" dialog has been shown and sets it as complete
 //! @param source The "first use" bit to check
 //! @return true if the dialog has already been shown, false otherwise

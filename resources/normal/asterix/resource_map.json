@@ -420,6 +420,11 @@
      "type": "pdc",
      "name": "MENU_ICON_HEALTH",
      "file": "normal/base/images/menu_icon_health.svg"
+    },
+    {
+      "type": "raw",
+      "name": "HOUR_BEEP_PCM",
+      "file": "normal/base/audio/pcm_hour_beep.raw"
     }
   ]
 }
