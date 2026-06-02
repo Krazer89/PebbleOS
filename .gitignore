@@ -68,3 +68,5 @@ artifacts/
 .claude/settings.local.json
 .envrc
 .direnv
+
+*.patch
